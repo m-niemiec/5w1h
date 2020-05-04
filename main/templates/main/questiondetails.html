@@ -14,7 +14,7 @@ Author: {{ question.user }} Created: {{ question.created }} Answered: {{ questio
         <br><br>
 
 <div id="voting_section">
-{% include 'main/voting_section.html' %}
+{% include 'main/partials/voting_section.html' %}
 </div>
 
         {% for answer in question.answer_set.all %}

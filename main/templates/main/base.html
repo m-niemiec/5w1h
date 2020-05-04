@@ -26,6 +26,9 @@
 {% endif %}
 {% block content %}{% endblock %}
 
+{% include 'main/partials/messages_section.html' %}
+
+
 <script type="text/javascript">
     $(document).ready(function(event){
         $(document).on('click', '#voteup', function(event){
@@ -40,6 +43,7 @@
                     $('#voting_section').html(response['form'])
                     console.log($('#voting_section').html(response['form']));
                 },
+
                 error: function(rs, e){
                     console.log(rs.responseText);
                 },

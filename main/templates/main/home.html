@@ -18,7 +18,7 @@ We have {{ questions_count }} questions and {{ answers_count }} answers !
         <a href="{% url 'questiondetails' question.id %}">Question:</a>Author: {{ question.user }} Created: {{ question.created|date:'M j Y H:i' }} Answered: {{ question.answered }}<br>
         {{ question|truncatechars:100 }}
         <br><br>
-        {% for answer in question.answer_set.all %}
+        {% for answer in question.answer_set.all|slice:":3" %}
             {{ answer|striptags|truncatechars:50 }}<br>
         {% endfor %}
     </li>
@@ -28,11 +28,12 @@ We have {{ questions_count }} questions and {{ answers_count }} answers !
 
 <h1>Questions not answered:</h1>
 <ul>
+
     {% for question in allquestionswithoutanswers %}
     <li>
         {{ question }} {{ question.user }}
         <br><br>
-        {% for answer in question.answer_set.all %}
+        {% for answer in question.answer_set.all|slice:":3" %}
             {{ answer }}<br>
         {% endfor %}
 

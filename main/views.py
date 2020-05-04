@@ -32,6 +32,7 @@ def signupuser(request):
                 user = User.objects.create_user(request.POST["username"], password=request.POST["password1"])
                 user.save()
                 login(request, user)
+                messages.success(request, "Thank you for registering, have fun!")
                 return redirect("dashboard")
             except IntegrityError:
                 return render(request, 'main/signupuser.html', {'form': UserCreationForm(), 'error': "That user name is already taken. Please choose a different, new one."})
@@ -49,24 +50,26 @@ def loginuser(request):
             return render(request, 'main/loginuser.html', {'form': AuthenticationForm(), 'error': "Username and password did not match."})
         else:
             login(request, user)
+            messages.success(request, "Thank you for logging in, have fun!")
             return redirect("dashboard")
 
 
-@login_required()
+@login_required
 def logoutuser(request):
     if request.method == "POST":
         logout(request)
+        messages.success(request, "You logged out!")
         return redirect("home")
 
 
-@login_required()
+@login_required
 def dashboard(request):
     yourquestions = Question.objects.filter(user=request.user)
     youranswers = Answer.objects.filter(user=request.user)
     return render(request, 'main/dashboard.html', {'yourquestions': yourquestions, 'youranswers': youranswers})
 
 
-@login_required()
+@login_required
 def askaquestion(request):
     if request.method == 'GET':
         return render(request, 'main/askaquestion.html', {'form': AskAQuestionForm()})
@@ -76,13 +79,14 @@ def askaquestion(request):
             new_question = form.save(commit=False)
             new_question.user = request.user
             new_question.save()
+            messages.success(request, "You asked a question! Thank You.")
             return redirect("dashboard")
         except ValueError:
             return render(request, 'main/askaquestion.html',
                           {'form': AskAQuestionForm(), 'error': 'Bad input, can you please rephrase?'})
 
 
-@login_required()
+@login_required
 def giveananswer(request):
     if request.method == 'GET':
         return render(request, 'main/giveananswer.html', {'form': GiveAnAnswerForm()})
@@ -92,13 +96,14 @@ def giveananswer(request):
             new_answer = form.save(commit=False)
             new_answer.user = request.user
             new_answer.save()
+            messages.success(request, "You answered question! Thank You.")
             return redirect("dashboard")
         except ValueError:
             return render(request, 'main/giveananswer.html',
                           {'form': GiveAnAnswerForm(), 'error': 'Bad input, can you please rephrase?'})
 
 
-@login_required()
+@login_required
 def viewquestion(request, question_pk):
     question = get_object_or_404(Question, pk=question_pk, user=request.user)
     if request.method == "GET":
@@ -113,7 +118,7 @@ def viewquestion(request, question_pk):
             return render(request, 'main/viewquestion.html', {'question': question, 'form': form, 'error': 'Bad input, can you please rephrase?'})
 
 
-@login_required()
+@login_required
 def questiondetails(request, question_pk):
     question = get_object_or_404(Question, pk=question_pk)
     total_voteup = question.total_voteup()
@@ -127,24 +132,26 @@ def questiondetails(request, question_pk):
     return render(request, 'main/questiondetails.html', {'question': question, 'is_voteup': is_voteup, 'is_votedown': is_votedown, 'total_voteup': total_voteup, 'total_votedown': total_votedown})
 
 
-@login_required()
+@login_required
 def deletequestion(request, question_pk):
     question = get_object_or_404(Question, pk=question_pk, user=request.user)
     if request.method == "POST":
         question.delete()
+        messages.success(request, "Question deleted!")
         return redirect("dashboard")
 
 
-@login_required()
+@login_required
 def questionanswered(request, question_pk):
     question = get_object_or_404(Question, pk=question_pk, user=request.user)
     if request.method == "POST":
         question.datecompleted = timezone.now()
         question.save()
+        messages.success(request, "You marked your question as answered!")
         return redirect("dashboard")
 
 
-@login_required()
+@login_required
 def viewanswer(request, answer_pk):
     answer = get_object_or_404(Answer, pk=answer_pk, user=request.user)
     if request.method == "GET":
@@ -159,20 +166,21 @@ def viewanswer(request, answer_pk):
             return render(request, 'main/viewanswer.html', {'answer': answer, 'form': form, 'error': 'Bad input, can you please rephrase?'})
 
 
-@login_required()
+@login_required
 def deleteanswer(request, answer_pk):
     answer = get_object_or_404(Question, pk=answer_pk, user=request.user)
     if request.method == "POST":
         answer.delete()
+        messages.success(request, "Answer deleted!")
         return redirect("dashboard")
 
 
-@login_required()
+@login_required
 def questionvoteup(request, question_pk):
     pass
 
 
-@login_required()
+@login_required
 def voteup(request):
     question = get_object_or_404(Question, id=request.POST.get('question_id'))
     total_voteup = question.total_voteup()
@@ -186,11 +194,11 @@ def voteup(request):
         is_voteup = True
     context = {'question': question, 'is_voteup': is_voteup, 'total_voteup': total_voteup, 'total_votedown': total_votedown}
     if request.is_ajax():
-        html = render_to_string('main/voting_section.html', context, request=request)
+        html = render_to_string('main/partials/voting_section.html', context, request=request)
         return JsonResponse({'form': html})
 
 
-@login_required()
+@login_required
 def votedown(request):
     question = get_object_or_404(Question, id=request.POST.get('question_id'))
     total_voteup = question.total_voteup()
@@ -204,5 +212,5 @@ def votedown(request):
         is_votedown = True
     context = {'question': question, 'is_votedown': is_votedown, 'total_voteup': total_voteup, 'total_votedown': total_votedown}
     if request.is_ajax():
-        html = render_to_string('main/voting_section.html', context, request=request)
+        html = render_to_string('main/partials/voting_section.html', context, request=request)
         return JsonResponse({'form': html})
