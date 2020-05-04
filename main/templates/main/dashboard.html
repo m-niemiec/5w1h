@@ -1,0 +1,42 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+</head>
+<body>
+
+<h1>Your questions:</h1>
+<ul>
+    {% for Question in yourquestions %}
+    <li>
+        <a href="{% url 'viewquestion' Question.id %}">
+        <b>{{ Question.question }}</b>
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+
+<br><br>
+<h1>Your answers:</h1>
+<ul>
+    {% for Answer in youranswers %}
+    <li>
+        <a href="{% url 'viewanswer' Answer.id %}">
+        {{ Answer.question }} - <b>{{ Answer.answer }}</b>
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
+
+{% endblock %}
+
+
+

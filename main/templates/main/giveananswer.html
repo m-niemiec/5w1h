@@ -1,0 +1,26 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Give an answer</title>
+</head>
+<body>
+
+<h1>Give an answer:</h1>
+
+<h2>{{ error }}</h2>
+
+<form method="POST">
+{% csrf_token %}
+{{ form.as_p }}
+<button type="submit">Here is your answer!</button>
+</form>
+
+</body>
+</html>
+
+{% endblock %}

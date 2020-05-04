@@ -1,0 +1,47 @@
+{% extends "main/base.html" %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+We have {{ questions_count }} questions and {{ answers_count }} answers !
+{{ test1 }}
+
+<h1>Questions answered:</h1>
+<ul>
+    {% for question in allquestionswithanswers %}
+    <li>
+        <a href="{% url 'questiondetails' question.id %}">Question:</a>Author: {{ question.user }} Created: {{ question.created|date:'M j Y H:i' }} Answered: {{ question.answered }}<br>
+        {{ question|truncatechars:100 }}
+        <br><br>
+        {% for answer in question.answer_set.all %}
+            {{ answer|striptags|truncatechars:50 }}<br>
+        {% endfor %}
+    </li>
+    {% endfor %}
+
+</ul>
+
+<h1>Questions not answered:</h1>
+<ul>
+    {% for question in allquestionswithoutanswers %}
+    <li>
+        {{ question }} {{ question.user }}
+        <br><br>
+        {% for answer in question.answer_set.all %}
+            {{ answer }}<br>
+        {% endfor %}
+
+    </li>
+    {% endfor %}
+
+</ul>
+
+</body>
+</html>
+{% endblock %}
+

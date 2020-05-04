@@ -1,0 +1,38 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{{ error }}
+
+{{ question.question }}
+
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save new Question</button>
+</form>
+
+<form method="POST" action="{% url 'questionanswered' question.id %}">
+    {% csrf_token %}
+    <button type="submit">Question is Answered!</button>
+</form>
+
+<form method="POST" action="{% url 'deletequestion' question.id %}">
+    {% csrf_token %}
+    <button type="submit">Delete Question</button>
+</form>
+
+
+</body>
+</html>
+
+{% endblock %}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://code.jquery.com/jquery-3.5.0.slim.min.js"
+        integrity="sha256-MlusDLJIP1GRgLrOflUQtshyP0TwT/RHXsI1wWGnQhs="
+        crossorigin="anonymous">
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <title>5W1H</title>
+</head>
+<body>
+<a href="{% url 'home' %}">Home</a>
+{% if user.is_authenticated %}
+    <a href="{% url 'dashboard' %}">Dashboard</a>
+    <a href="{% url 'askaquestion' %}">Ask a Question!</a>
+    <a href="{% url 'giveananswer' %}">Give an Answer!</a>
+    Logged In as {{ user.username }}
+    <form action="{% url 'logoutuser' %}" method="POST">
+    {% csrf_token %}
+    <button type="submit">Log Out</button>
+    </form>
+{% else %}
+    <a href="{% url 'signupuser' %}">Sign Up</a>
+    <a href="{% url 'loginuser' %}">Login</a>
+{% endif %}
+{% block content %}{% endblock %}
+
+<script type="text/javascript">
+    $(document).ready(function(event){
+        $(document).on('click', '#voteup', function(event){
+            event.preventDefault();
+            var pk = $(this).attr('value');
+            $.ajax({
+                type: 'POST',
+                url: '{% url "voteup" %}',
+                data: {'question_id': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}' },
+                dataType: 'json',
+                success: function(response){
+                    $('#voting_section').html(response['form'])
+                    console.log($('#voting_section').html(response['form']));
+                },
+                error: function(rs, e){
+                    console.log(rs.responseText);
+                },
+            });
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(event){
+        $(document).on('click', '#votedown', function(event){
+            event.preventDefault();
+            var pk = $(this).attr('value');
+            $.ajax({
+                type: 'POST',
+                url: '{% url "votedown" %}',
+                data: {'question_id': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}' },
+                dataType: 'json',
+                success: function(response){
+                    $('#voting_section').html(response['form'])
+                    console.log($('#voting_section').html(response['form']));
+                },
+                error: function(rs, e){
+                    console.log(rs.responseText);
+                },
+            });
+        });
+    });
+</script>
+</body>
+</html>
