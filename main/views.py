@@ -87,23 +87,6 @@ def askaquestion(request):
 
 
 @login_required
-def giveananswer(request):
-    if request.method == 'GET':
-        return render(request, 'main/giveananswer.html', {'form': GiveAnAnswerForm()})
-    else:
-        try:
-            form = GiveAnAnswerForm(request.POST)
-            new_answer = form.save(commit=False)
-            new_answer.user = request.user
-            new_answer.save()
-            messages.success(request, "You answered question! Thank You.")
-            return redirect("dashboard")
-        except ValueError:
-            return render(request, 'main/giveananswer.html',
-                          {'form': GiveAnAnswerForm(), 'error': 'Bad input, can you please rephrase?'})
-
-
-@login_required
 def viewquestion(request, question_pk):
     question = get_object_or_404(Question, pk=question_pk, user=request.user)
     if request.method == "GET":
@@ -121,15 +104,22 @@ def viewquestion(request, question_pk):
 @login_required
 def questiondetails(request, question_pk):
     question = get_object_or_404(Question, pk=question_pk)
+    question_form_id = question
     total_voteup = question.total_voteup()
     total_votedown = question.total_votedown()
     is_voteup = False
     is_votedown = False
+    form = GiveAnAnswerForm(request.POST, initial={'question_id': 'question_form_id'})
+    if request.method == 'POST':
+        new_answer = form.save(commit=False)
+        new_answer.user = request.user
+        new_answer.save()
+        messages.success(request, "You answered question! Thank You.")
     if question.voteup.filter(id=request.user.id).exists():
         is_voteup = True
     if question.votedown.filter(id=request.user.id).exists():
         is_votedown = True
-    return render(request, 'main/questiondetails.html', {'question': question, 'is_voteup': is_voteup, 'is_votedown': is_votedown, 'total_voteup': total_voteup, 'total_votedown': total_votedown})
+    return render(request, 'main/questiondetails.html', {'form': GiveAnAnswerForm(initial={'question_id': question_form_id}), 'question': question, 'is_voteup': is_voteup, 'is_votedown': is_votedown, 'total_voteup': total_voteup, 'total_votedown': total_votedown})
 
 
 @login_required

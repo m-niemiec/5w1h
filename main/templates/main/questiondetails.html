@@ -21,6 +21,11 @@ Author: {{ question.user }} Created: {{ question.created }} Answered: {{ questio
             {{ answer }}<br>
         {% endfor %}
 
+<form method="POST">
+{% csrf_token %}
+{{ form.as_p }}
+<button type="submit">Here is your answer!</button>
+</form>
 </body>
 </html>
 

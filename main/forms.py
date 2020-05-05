@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from .models import *
-
+from django import forms
 
 class AskAQuestionForm(ModelForm):
     class Meta:
@@ -9,6 +9,8 @@ class AskAQuestionForm(ModelForm):
 
 
 class GiveAnAnswerForm(ModelForm):
+
     class Meta:
         model = Answer
         fields = ['question_id', 'answer']
+        widgets = {'question_id': forms.HiddenInput()}

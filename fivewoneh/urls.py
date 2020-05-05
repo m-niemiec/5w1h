@@ -28,7 +28,6 @@ urlpatterns = [
     # User Page
     path('dashboard/', views.dashboard, name='dashboard'),
     path('askaquestion/', views.askaquestion, name='askaquestion'),
-    path('giveananswer/', views.giveananswer, name='giveananswer'),
     path('viewquestion/<int:question_pk>', views.viewquestion, name='viewquestion'),
     path('viewquestion/<int:question_pk>/answered', views.questionanswered, name='questionanswered'),
     path('viewquestion/<int:question_pk>/delete', views.deletequestion, name='deletequestion'),

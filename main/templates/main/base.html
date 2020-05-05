@@ -14,7 +14,6 @@
 {% if user.is_authenticated %}
     <a href="{% url 'dashboard' %}">Dashboard</a>
     <a href="{% url 'askaquestion' %}">Ask a Question!</a>
-    <a href="{% url 'giveananswer' %}">Give an Answer!</a>
     Logged In as {{ user.username }}
     <form action="{% url 'logoutuser' %}" method="POST">
     {% csrf_token %}
