@@ -12,13 +12,19 @@
 Author: {{ question.user }} Created: {{ question.created }} Answered: {{ question.answered }}<br><br>
 {{ question }}
         <br><br>
-
 <div id="voting_section">
 {% include 'main/partials/voting_section.html' %}
 </div>
 
         {% for answer in question.answer_set.all %}
-            {{ answer }}<br>
+            {{ answer }} <br>
+            Valued Answer: {{ answer.appreciated_answer }}<br>
+            {% if user == question.user and answer.appreciated_answer == False %}
+            <form method='POST' action="{% url 'appreciatedanswer' answer.id %}">
+            {% csrf_token %}
+            <button type='submit' id="appreciatedanswer" name="question_id" value="{{ answer.id }}">Appreciate</button>
+            </form>
+            {% endif %}
         {% endfor %}
 
 <form method="POST">

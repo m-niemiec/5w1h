@@ -31,13 +31,12 @@ urlpatterns = [
     path('viewquestion/<int:question_pk>', views.viewquestion, name='viewquestion'),
     path('viewquestion/<int:question_pk>/answered', views.questionanswered, name='questionanswered'),
     path('viewquestion/<int:question_pk>/delete', views.deletequestion, name='deletequestion'),
-    path('viewquestion/<int:question_pk>/voteup', views.questionvoteup, name='questionvoteup'),
     path('viewanswer/<int:answer_pk>', views.viewanswer, name='viewanswer'),
+    path('appreciatedanswer/<int:answer_pk>', views.appreciatedanswer, name='appreciatedanswer'),
     path('viewanswer/<int:answer_pk>/delete', views.deleteanswer, name='deleteanswer'),
     path('voteup/', views.voteup, name='voteup'),
     path('votedown/', views.votedown, name='votedown'),
     path('questiondetails/<int:question_pk>', views.questiondetails, name='questiondetails'),
-
 
     path('', views.home, name='home'),
 ]

@@ -12,6 +12,7 @@ from django.contrib import messages
 from django import forms
 from datetime import datetime, timedelta
 from django.template.loader import render_to_string
+from main.models import Answer
 
 
 def home(request):
@@ -101,9 +102,9 @@ def viewquestion(request, question_pk):
             return render(request, 'main/viewquestion.html', {'question': question, 'form': form, 'error': 'Bad input, can you please rephrase?'})
 
 
-@login_required
 def questiondetails(request, question_pk):
     question = get_object_or_404(Question, pk=question_pk)
+    appreciated_answer = Answer.objects.filter(question_id=question).values('appreciated_answer').exists()
     question_form_id = question
     total_voteup = question.total_voteup()
     total_votedown = question.total_votedown()
@@ -119,7 +120,7 @@ def questiondetails(request, question_pk):
         is_voteup = True
     if question.votedown.filter(id=request.user.id).exists():
         is_votedown = True
-    return render(request, 'main/questiondetails.html', {'form': GiveAnAnswerForm(initial={'question_id': question_form_id}), 'question': question, 'is_voteup': is_voteup, 'is_votedown': is_votedown, 'total_voteup': total_voteup, 'total_votedown': total_votedown})
+    return render(request, 'main/questiondetails.html', {'form': GiveAnAnswerForm(initial={'question_id': question_form_id}), 'BestAnswer_form': BestAnswerForm(initial={'question_id': question_form_id}), 'question': question, 'is_voteup': is_voteup, 'is_votedown': is_votedown, 'total_voteup': total_voteup, 'total_votedown': total_votedown, 'appreciated_answer': appreciated_answer})
 
 
 @login_required
@@ -166,11 +167,6 @@ def deleteanswer(request, answer_pk):
 
 
 @login_required
-def questionvoteup(request, question_pk):
-    pass
-
-
-@login_required
 def voteup(request):
     question = get_object_or_404(Question, id=request.POST.get('question_id'))
     total_voteup = question.total_voteup()
@@ -204,3 +200,13 @@ def votedown(request):
     if request.is_ajax():
         html = render_to_string('main/partials/voting_section.html', context, request=request)
         return JsonResponse({'form': html})
+
+
+@login_required
+def appreciatedanswer(request, answer_pk):
+    answer = get_object_or_404(Answer, pk=answer_pk, user=request.user)
+    if request.method == "POST":
+        answer.appreciated_answer = True
+        answer.save()
+        messages.success(request, "Answer marked as appreciated!")
+        return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
