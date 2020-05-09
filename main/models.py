@@ -28,5 +28,9 @@ class Answer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     appreciated_answer = models.BooleanField(default=False)
 
+    class Meta:
+        ordering = ['-appreciated_answer', '-id']
+
     def __str__(self):
         return self.answer
+

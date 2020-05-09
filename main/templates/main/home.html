@@ -11,9 +11,9 @@
 We have {{ questions_count }} questions and {{ answers_count }} answers !
 {{ test1 }}
 
-<h1>Questions answered:</h1>
+<h1>All Questions:</h1>
 <ul>
-    {% for question in allquestionswithanswers %}
+    {% for question in allquestions %}
     <li>
         <a href="{% url 'questiondetails' question.id %}">Question:</a>Author: {{ question.user }} Created: {{ question.created|date:'M j Y H:i' }} Answered: {{ question.answered }}<br>
         {{ question|truncatechars:100 }}
@@ -26,21 +26,34 @@ We have {{ questions_count }} questions and {{ answers_count }} answers !
 
 </ul>
 
-<h1>Questions not answered:</h1>
-<ul>
+<ul class="pagination">
+    {% if allquestions.has_previous %}
+        <li class="page-item">
+            <a href="?page={{ allquestions.previous_page_number }}" class="page-link">&laquo;</a>
+        </li>
+    {% endif %}
 
-    {% for question in allquestionswithoutanswers %}
-    <li>
-        {{ question }} {{ question.user }}
-        <br><br>
-        {% for answer in question.answer_set.all|slice:":3" %}
-            {{ answer }}<br>
-        {% endfor %}
-
-    </li>
+    {% for question in allquestions.paginator.page_range %}
+        {% if allquestions.number == question %}
+            <li class="page-item active">
+                <a href="?page={{ question }}" class="page-link">{{ question }}</a>
+            </li>
+        {% else %}
+            <li class="page-item">
+                <a href="?page={{ question }}" class="page-link">{{ question }}</a>
+            </li>
+        {% endif %}
     {% endfor %}
 
+    {% if allquestions.has_next %}
+        <li class="page-item">
+            <a href="?page={{ allquestions.next_page_number }}" class="page-link">&raquo;</a>
+        </li>
+    {% endif %}
 </ul>
+
+
+
 
 </body>
 </html>

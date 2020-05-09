@@ -13,14 +13,27 @@ from django import forms
 from datetime import datetime, timedelta
 from django.template.loader import render_to_string
 from main.models import Answer
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def home(request):
-    allquestionswithanswers = Question.objects.filter(datecompleted__isnull=False)
-    allquestionswithoutanswers = Question.objects.filter(datecompleted__isnull=True)
+    allquestionswithanswers = Question.objects.filter(datecompleted__isnull=False).order_by('id')
+    allquestionswithoutanswers = Question.objects.filter(datecompleted__isnull=True).order_by('id')
+    allquestions = Question.objects.all().order_by('id')
+
     questions_count = Question.objects.count
     answers_count = Answer.objects.count
-    return render(request, 'main/home.html', {'allquestionswithanswers': allquestionswithanswers, 'allquestionswithoutanswers': allquestionswithoutanswers, 'questions_count': questions_count, 'answers_count': answers_count})
+
+    paginator = Paginator(allquestions, 2)
+    page = request.GET.get('page')
+    try:
+        allquestions = paginator.page(page)
+    except PageNotAnInteger:
+        allquestions = paginator.page(1)
+    except EmptyPage:
+        allquestions = paginator.page(paginator.num_pages)
+
+    return render(request, 'main/home.html', {'allquestionswithanswers': allquestionswithanswers, 'allquestionswithoutanswers': allquestionswithoutanswers, 'questions_count': questions_count, 'answers_count': answers_count, 'allquestions': allquestions})
 
 
 def signupuser(request):
