@@ -12,19 +12,25 @@ We have {{ questions_count }} questions and {{ answers_count }} answers !
 {{ test1 }}
 
 <h1>All Questions:</h1>
-<ul>
     {% for question in allquestions %}
-    <li>
-        <a href="{% url 'questiondetails' question.id %}">Question:</a>Author: {{ question.user }} Created: {{ question.created|date:'M j Y H:i' }} Answered: {{ question.answered }}<br>
-        {{ question|truncatechars:100 }}
-        <br><br>
-        {% for answer in question.answer_set.all|slice:":3" %}
+
+
+
+<div class="card" style="max-width: 1080px;">
+  <div class="card-header">
+    Author: {{ question.user }} Created: {{ question.created|date:'M j Y H:i' }} Answered: {{ question.answered }}
+  </div>
+    <div class="card-body">
+    <a href="{% url 'questiondetails' question.id %}">{{ question|truncatechars:100 }}</a><br>
+
+                {% for answer in question.answer_set.all|slice:":3" %}
             {{ answer|striptags|truncatechars:50 }}<br>
         {% endfor %}
-    </li>
+  </div>
+    </div>
+<br>
     {% endfor %}
 
-</ul>
 
 <ul class="pagination">
     {% if allquestions.has_previous %}

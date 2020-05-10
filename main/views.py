@@ -17,9 +17,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def home(request):
-    allquestionswithanswers = Question.objects.filter(datecompleted__isnull=False).order_by('id')
-    allquestionswithoutanswers = Question.objects.filter(datecompleted__isnull=True).order_by('id')
-    allquestions = Question.objects.all().order_by('id')
+    allquestionswithanswers = Question.objects.filter(datecompleted__isnull=False).order_by('-id')
+    allquestionswithoutanswers = Question.objects.filter(datecompleted__isnull=True).order_by('-id')
+    allquestions = Question.objects.all().order_by('-id')
 
     questions_count = Question.objects.count
     answers_count = Answer.objects.count
@@ -195,6 +195,7 @@ def questionanswered(request, question_pk):
     question = get_object_or_404(Question, pk=question_pk, user=request.user)
     if request.method == "POST":
         question.datecompleted = timezone.now()
+        question.answered = True
         question.save()
         messages.success(request, "You marked your question as answered!")
         return redirect("dashboard")
