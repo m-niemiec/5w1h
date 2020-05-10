@@ -33,7 +33,7 @@ We have {{ questions_count }} questions and {{ answers_count }} answers !
         </li>
     {% endif %}
 
-    {% for question in allquestions.paginator.page_range %}
+    {% for question in page_range %}
         {% if allquestions.number == question %}
             <li class="page-item active">
                 <a href="?page={{ question }}" class="page-link">{{ question }}</a>

@@ -33,7 +33,24 @@ def home(request):
     except EmptyPage:
         allquestions = paginator.page(paginator.num_pages)
 
-    return render(request, 'main/home.html', {'allquestionswithanswers': allquestionswithanswers, 'allquestionswithoutanswers': allquestionswithoutanswers, 'questions_count': questions_count, 'answers_count': answers_count, 'allquestions': allquestions})
+    if page is None:
+        start_index = 0
+        end_index = 7
+    else:
+        (start_index, end_index) = proper_pagination(allquestions, index=4)
+
+    page_range = list(paginator.page_range)[start_index:end_index]
+
+    return render(request, 'main/home.html', {'allquestionswithanswers': allquestionswithanswers, 'allquestionswithoutanswers': allquestionswithoutanswers, 'questions_count': questions_count, 'answers_count': answers_count, 'allquestions': allquestions, 'page_range': page_range})
+
+
+def proper_pagination(allquestions, index):
+    start_index = 0
+    end_index = 7
+    if allquestions.number > index:
+        start_index = allquestions.number - index
+        end_index = start_index + end_index
+    return start_index, end_index
 
 
 def signupuser(request):
