@@ -41,7 +41,16 @@ def home(request):
 
     page_range = list(paginator.page_range)[start_index:end_index]
 
-    return render(request, 'main/home.html', {'allquestionswithanswers': allquestionswithanswers, 'allquestionswithoutanswers': allquestionswithoutanswers, 'questions_count': questions_count, 'answers_count': answers_count, 'allquestions': allquestions, 'page_range': page_range})
+    context = {
+        'allquestionswithanswers': allquestionswithanswers,
+        'allquestionswithoutanswers': allquestionswithoutanswers,
+        'questions_count': questions_count,
+        'answers_count': answers_count,
+        'allquestions': allquestions,
+        'page_range': page_range
+    }
+
+    return render(request, 'main/home.html', context)
 
 
 def proper_pagination(allquestions, index):
@@ -66,10 +75,13 @@ def signupuser(request):
                 messages.success(request, "Thank you for registering, have fun!")
                 return redirect("dashboard")
             except IntegrityError:
-                return render(request, 'main/signupuser.html', {'form': UserCreationForm(), 'error': "That user name is already taken. Please choose a different, new one."})
+                return render(request, 'main/signupuser.html', {'form': UserCreationForm(),
+                                                                'error': "That user name is already taken. Please "
+                                                                         "choose a different, new one."})
 
         else:
-            return render(request, 'main/signupuser.html', {'form': UserCreationForm(), 'error': "Passwords did not match."})
+            return render(request, 'main/signupuser.html', {'form': UserCreationForm(),
+                                                            'error': "Passwords did not match."})
 
 
 def loginuser(request):
@@ -78,7 +90,8 @@ def loginuser(request):
     else:
         user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
         if user is None:
-            return render(request, 'main/loginuser.html', {'form': AuthenticationForm(), 'error': "Username and password did not match."})
+            return render(request, 'main/loginuser.html', {'form': AuthenticationForm(),
+                                                           'error': "Username and password did not match."})
         else:
             login(request, user)
             messages.success(request, "Thank you for logging in, have fun!")
@@ -122,14 +135,17 @@ def viewquestion(request, question_pk):
     question = get_object_or_404(Question, pk=question_pk, user=request.user)
     if request.method == "GET":
         form = AskAQuestionForm(instance=question)
-        return render(request, 'main/viewquestion.html', {'question': question, 'form': form})
+        return render(request, 'main/viewquestion.html', {'question': question,
+                                                          'form': form})
     else:
         try:
             form = AskAQuestionForm(request.POST, instance=question)
             form.save()
             return redirect('dashboard')
         except ValueError:
-            return render(request, 'main/viewquestion.html', {'question': question, 'form': form, 'error': 'Bad input, can you please rephrase?'})
+            return render(request, 'main/viewquestion.html', {'question': question,
+                                                              'form': form,
+                                                              'error': 'Bad input, can you please rephrase?'})
 
 
 def questiondetails(request, question_pk):
@@ -150,7 +166,19 @@ def questiondetails(request, question_pk):
         is_voteup = True
     if question.votedown.filter(id=request.user.id).exists():
         is_votedown = True
-    return render(request, 'main/questiondetails.html', {'form': GiveAnAnswerForm(initial={'question_id': question_form_id}), 'BestAnswer_form': BestAnswerForm(initial={'question_id': question_form_id}), 'question': question, 'is_voteup': is_voteup, 'is_votedown': is_votedown, 'total_voteup': total_voteup, 'total_votedown': total_votedown, 'appreciated_answer': appreciated_answer})
+
+    context = {
+        'form': GiveAnAnswerForm(initial={'question_id': question_form_id}),
+        'BestAnswer_form': BestAnswerForm(initial={'question_id': question_form_id}),
+        'question': question,
+        'is_voteup': is_voteup,
+        'is_votedown': is_votedown,
+        'total_voteup': total_voteup,
+        'total_votedown': total_votedown,
+        'appreciated_answer': appreciated_answer
+    }
+
+    return render(request, 'main/questiondetails.html', context)
 
 
 @login_required
@@ -184,7 +212,8 @@ def viewanswer(request, answer_pk):
             form.save()
             return redirect('dashboard')
         except ValueError:
-            return render(request, 'main/viewanswer.html', {'answer': answer, 'form': form, 'error': 'Bad input, can you please rephrase?'})
+            return render(request, 'main/viewanswer.html', {'answer': answer, 'form': form,
+                                                            'error': 'Bad input, can you please rephrase?'})
 
 
 @login_required
@@ -208,7 +237,12 @@ def voteup(request):
     else:
         question.voteup.add(request.user)
         is_voteup = True
-    context = {'question': question, 'is_voteup': is_voteup, 'total_voteup': total_voteup, 'total_votedown': total_votedown}
+    context = {
+        'question': question,
+        'is_voteup': is_voteup,
+        'total_voteup': total_voteup,
+        'total_votedown': total_votedown
+    }
     if request.is_ajax():
         html = render_to_string('main/partials/voting_section.html', context, request=request)
         return JsonResponse({'form': html})
@@ -226,7 +260,12 @@ def votedown(request):
     else:
         question.votedown.add(request.user)
         is_votedown = True
-    context = {'question': question, 'is_votedown': is_votedown, 'total_voteup': total_voteup, 'total_votedown': total_votedown}
+    context = {
+        'question': question,
+        'is_votedown': is_votedown,
+        'total_voteup': total_voteup,
+        'total_votedown': total_votedown
+    }
     if request.is_ajax():
         html = render_to_string('main/partials/voting_section.html', context, request=request)
         return JsonResponse({'form': html})
