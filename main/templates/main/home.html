@@ -8,31 +8,41 @@
     <title>Title</title>
 </head>
 <body>
-We have {{ questions_count }} questions and {{ answers_count }} answers !
-{{ test1 }}
-
-<h1>All Questions:</h1>
-    {% for question in allquestions %}
-
-
-
-<div class="card" style="max-width: 1080px;">
+<h1 class="display-5">5W1H - what, why, where, when, who and how?</h1>
+<p class="lead">With these 6 simple questions, you should be able to ask all the questions that you may have. Ask them or answer them!</p>
+<hr>
+<p class="lead">We already have {{ questions_count }} questions and {{ answers_count }} answers ! Can you pump those numbers up with us?</p>
+{% for question in allquestions %}
+<div class="card" >
   <div class="card-header">
-    Author: {{ question.user }} Created: {{ question.created|date:'M j Y H:i' }} Answered: {{ question.answered }}
+      <a href="{% url 'questiondetails' question.id %}" class="badge badge-info">ID#{{ question.id }}</a>
+      Total answers - {{ question.answer_set.count }}
+    {% if question.answered %}
+      <span class="badge badge-success">Answered</span>
+    {% else %}
+      <span class="badge badge-warning">Still need good answers!</span>
+      {% endif %}
+      <div class="float-right">
+          Author: {{ question.user }} | Created: {{ question.created|date:'M j Y H:i' }}
+      </div>
   </div>
-    <div class="card-body">
-    <a href="{% url 'questiondetails' question.id %}">{{ question|truncatechars:100 }}</a><br>
-
-                {% for answer in question.answer_set.all|slice:":3" %}
-            {{ answer|striptags|truncatechars:50 }}<br>
+  <div class="card-body">
+      {{ question|truncatechars:500 }}<br>
+        {% for answer in question.answer_set.all|slice:":3" %}
+            {{ answer|striptags|truncatechars:200 }}<br>
         {% endfor %}
   </div>
+    <div class="card-footer">
+      <small class="text-muted">
+          <a href="{% url 'questiondetails' question.id %}" class="btn btn-info btn-sm" role="button" aria-pressed="true">Answer</a>
+      </small>
     </div>
+    </div>
+
 <br>
     {% endfor %}
 
-
-<ul class="pagination">
+<ul class="pagination justify-content-center">
     {% if allquestions.has_previous %}
         <li class="page-item">
             <a href="?page={{ allquestions.previous_page_number }}" class="page-link">&laquo;</a>
@@ -57,6 +67,7 @@ We have {{ questions_count }} questions and {{ answers_count }} answers !
         </li>
     {% endif %}
 </ul>
+</center>
 
 </body>
 </html>

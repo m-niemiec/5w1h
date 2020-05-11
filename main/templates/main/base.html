@@ -9,23 +9,43 @@
     <title>5W1H</title>
 </head>
 <body>
-<a href="{% url 'home' %}">Home</a>
-{% if user.is_authenticated %}
-    <a href="{% url 'dashboard' %}">Dashboard</a>
-    <a href="{% url 'askaquestion' %}">Ask a Question!</a>
-    Logged In as {{ user.username }}
-    <form action="{% url 'logoutuser' %}" method="POST">
-    {% csrf_token %}
-    <button type="submit">Log Out</button>
-    </form>
-{% else %}
-    <a href="{% url 'signupuser' %}">Sign Up</a>
-    <a href="{% url 'loginuser' %}">Login</a>
-{% endif %}
-{% block content %}{% endblock %}
 
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="{% url 'home' %}">
+    <img src="/docs/4.4/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+    5W1H
+  </a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+        <a class="nav-item nav-link active" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+        {% if user.is_authenticated %}
+            <a class="nav-item nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+            <a class="nav-item nav-link" href="{% url 'askaquestion' %}">Ask a Question! | </a>
+            <span class="navbar-text">
+            Logged in as {{ user.username }}
+                </span>
+            <form class="form-inline my-2 my-lg-0" action="{% url 'logoutuser' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-warning">Log Out</button>
+            </form>
+        {% else %}
+            <a class="nav-item nav-link" href="{% url 'signupuser' %}">Sign Up</a>
+            <a class="nav-item nav-link" href="{% url 'loginuser' %}">Login</a>
+        {% endif %}
+    </div>
+  </div>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
 {% include 'main/partials/messages_section.html' %}
 
+{% block content %}{% endblock %}
+  </div>
+</div>
 <script type="text/javascript">
     $(document).ready(function(event){
         $(document).on('click', '#voteup', function(event){
