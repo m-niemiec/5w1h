@@ -27,7 +27,7 @@
 </div>
 
     <h5 class="card-title"><i><h5>Question:</h5></i><br> {{ question }}</h5>
-      <hr>
+      <hr class="large">
         {% for answer in question.answer_set.all %}
       {% if answer.appreciated_answer %}
       <span class="badge badge-success">Valued</span><i> Answer:</i>
@@ -47,7 +47,7 @@
             <button type='submit' id="appreciatedanswer" name="question_id" class="btn btn-info btn-sm" value="{{ answer.id }}">Mark as valued</button>
             </form>
             {% endif %}
-      <hr>
+      <hr class="style-two">
         {% endfor %}
 <br><br>
 <center>
@@ -61,7 +61,7 @@
     {{ form.answer.errors }}
     {{ form.answer }}
     </div><br>
-<button type="submit">Post Answer</button>
+<button type="submit" class="btn btn-info btn-lg">Post Answer</button>
 </form>
 </center>
     </div>

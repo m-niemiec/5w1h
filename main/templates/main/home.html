@@ -16,7 +16,7 @@
 
 </h1>
 <p class="lead">With these 6 simple questions, you should be able to ask all the questions that you may have. Ask them or answer them!</p>
-<hr>
+<hr class="large">
 <p class="lead">We already have {{ questions_count }} questions and {{ answers_count }} answers ! Can you pump those numbers up with us?</p>
 {% for question in allquestions %}
 <div class="card" >
@@ -35,15 +35,16 @@
   <div class="card-body">
 
       <i>Question:</i> {{ question|truncatechars:500 }}<br>
-        <hr>
+        <hr class="large">
         {% for answer in question.answer_set.all|slice:":3" %}
 
       {% if answer.appreciated_answer %}
-      <b>Valued Answer:</b>
+      <span class="badge badge-success">Valued</span><i> Answer:</i>
       {% else %}
       <i>Answer:</i>
       {% endif %}
        {{ answer|striptags|truncatechars:200 }} | Author: {{ answer.user }}<br>
+      <hr class="style-two">
         {% endfor %}
       {% if question.answer_set.count > 3 %}<br>
       <i>This questions have more answers, maybe you would like to <a href="{% url 'questiondetails' question.id %}">check them out?</a></i>
@@ -56,6 +57,7 @@
     </div>
     </div>
 <br>
+
     {% endfor %}
 <ul class="pagination justify-content-center">
     {% if allquestions.has_previous %}
