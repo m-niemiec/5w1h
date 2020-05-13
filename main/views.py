@@ -274,9 +274,9 @@ def votedown(request):
 
 @login_required
 def appreciatedanswer(request, answer_pk):
-    answer = get_object_or_404(Answer, pk=answer_pk, user=request.user)
+    answer = get_object_or_404(Answer, pk=answer_pk)
     if request.method == "POST":
         answer.appreciated_answer = True
         answer.save()
-        messages.success(request, "Answer marked as appreciated!")
+        messages.success(request, "Answer marked as valued!")
         return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))

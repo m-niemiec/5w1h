@@ -8,30 +8,39 @@
     <title>Dashboard</title>
 </head>
 <body>
-
-<h1>Your questions:</h1>
-<ul>
+<div class="card" >
+  <div class="card-header">
+      <h1>Your questions:</h1>
+        </div>
+  <div class="card-body">
+      <ul>
     {% for Question in yourquestions %}
     <li>
         <a href="{% url 'viewquestion' Question.id %}">
-        <b>{{ Question.question }}</b>
+        ID#{{ Question.id }} <b>{{ Question.question }}</b>
         </a>
     </li>
     {% endfor %}
 </ul>
-
-<br><br>
+</div>
+</div>
+<br><hr><br>
+<div class="card" >
+  <div class="card-header">
 <h1>Your answers:</h1>
+        </div>
+      <div class="card-body">
 <ul>
     {% for Answer in youranswers %}
     <li>
         <a href="{% url 'viewanswer' Answer.id %}">
-        {{ Answer.question }} - <b>{{ Answer.answer }}</b>
+        {{ Answer.question_id }} - ID#{{ Answer.id }} <b>{{ Answer.answer }}</b>
         </a>
     </li>
     {% endfor %}
 </ul>
-
+</div>
+</div>
 </body>
 </html>
 {% endblock %}

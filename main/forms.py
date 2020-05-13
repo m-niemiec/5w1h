@@ -11,6 +11,10 @@ class AskAQuestionForm(ModelForm):
 
 class GiveAnAnswerForm(ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['answer'].widget.attrs.update({'class': 'form-control'})
+
     class Meta:
         model = Answer
         fields = ['question_id', 'answer']

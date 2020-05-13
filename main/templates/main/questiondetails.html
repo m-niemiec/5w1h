@@ -8,30 +8,63 @@
     <title>Title</title>
 </head>
 <body>
-
-Author: {{ question.user }} Created: {{ question.created }} Answered: {{ question.answered }}<br><br>
-{{ question }}
-        <br><br>
-<div id="voting_section">
+<div class="card">
+  <div class="card-header">
+    <span class="badge badge-info">ID#{{ question.id }}</span>
+      Total answer{{ question.answer_set.count|pluralize }}: {{ question.answer_set.count }}
+      {% if question.answered %}
+      <span class="badge badge-success">Answered</span>
+    {% else %}
+      <span class="badge badge-secondary">Still need good answers!</span>
+      {% endif %}
+      <div class="float-right">
+          Author: {{ question.user }} | Created: {{ question.created|date:'M j Y H:i' }}
+      </div>
+  </div>
+  <div class="card-body">
+            <div id="voting_section" class="float-right">
 {% include 'main/partials/voting_section.html' %}
 </div>
 
+    <h5 class="card-title"><i><h5>Question:</h5></i><br> {{ question }}</h5>
+      <hr>
         {% for answer in question.answer_set.all %}
-            {{ answer }} <br>
-            Valued Answer: {{ answer.appreciated_answer }}<br>
+      {% if answer.appreciated_answer %}
+      <span class="badge badge-success">Valued</span><i> Answer:</i>
+      <div class="float-right">
+          Author: {{ answer.user }} | Created: {{ answer.created|date:'M j Y H:i' }}
+      </div><br>
+      {% else %}
+      <i>Answer:</i>
+      <div class="float-right">
+          Author: {{ answer.user }} | Created: {{ answer.created|date:'M j Y H:i' }}
+      </div><br>
+      {% endif %}
+            {{ answer }}<br>
             {% if user == question.user and answer.appreciated_answer == False %}
             <form method='POST' action="{% url 'appreciatedanswer' answer.id %}">
             {% csrf_token %}
-            <button type='submit' id="appreciatedanswer" name="question_id" value="{{ answer.id }}">Appreciate</button>
+            <button type='submit' id="appreciatedanswer" name="question_id" class="btn btn-info btn-sm" value="{{ answer.id }}">Mark as valued</button>
             </form>
             {% endif %}
+      <hr>
         {% endfor %}
-
+<br><br>
+<center>
 <form method="POST">
 {% csrf_token %}
-{{ form.as_p }}
-<button type="submit">Here is your answer!</button>
+<h3>Your answer:</h3><br>
+    <div class="fieldWrapper">
+    {{ form.question_id.errors }}
+    {{ form.question_id }}
+
+    {{ form.answer.errors }}
+    {{ form.answer }}
+    </div><br>
+<button type="submit">Post Answer</button>
 </form>
+</center>
+    </div>
 </body>
 </html>
 {% endblock %}

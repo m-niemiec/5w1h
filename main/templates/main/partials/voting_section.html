@@ -1,21 +1,21 @@
-Vote Up: {{ total_voteup }} Vote Down: {{ total_votedown }}
+Up: {{ total_voteup }} Down: {{ total_votedown }}
 {% if is_voteup %}
     <form method='POST' action="{% url 'voteup' %}">
     {% csrf_token %}
-    <button type='submit' id="voteup" name="question_id" value="{{ question.id }}">Revert /\</button>
+    <button type='submit' id="voteup" name="question_id" value="{{ question.id }}"><i class="material-icons">arrow_upward</i></button>
     </form>
 {% elif is_votedown %}
     <form method='POST' action="{% url 'votedown' %}">
     {% csrf_token %}
-    <button type='submit' id="votedown" name="question_id" value="{{ question.id }}">Revert \/</button>
+    <button type='submit' id="votedown" name="question_id" value="{{ question.id }}"><i class="material-icons">arrow_downward</i></button>
     </form>
 {% else %}
     <form method='POST' action="{% url 'voteup' %}">
     {% csrf_token %}
-    <button type='submit' id="voteup" name="question_id" value="{{ question.id }}">/\</button>
+    <button type='submit' id="voteup" name="question_id" value="{{ question.id }}"><i class="material-icons">arrow_upward</i></button>
     </form>
     <form method='POST' action="{% url 'votedown' %}">
     {% csrf_token %}
-    <button type='submit' id="votedown" name="question_id" value="{{ question.id }}">\/</button>
+    <button type='submit' id="votedown" name="question_id" value="{{ question.id }}"><i class="material-icons">arrow_downward</i></button>
     </form>
 {% endif %}
