@@ -280,3 +280,7 @@ def appreciatedanswer(request, answer_pk):
         answer.save()
         messages.success(request, "Answer marked as valued!")
         return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
+
+
+def about(request):
+    return render(request, 'main/about.html')

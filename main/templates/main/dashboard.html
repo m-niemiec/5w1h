@@ -12,37 +12,45 @@
 <p>Have a nice day {{ user }}!</p>
 <hr class="large">
 <div class="card" >
-  <div class="card-header">
-      <h3>Your questions:</h3>
-        </div>
-  <div class="card-body">
-      <ul>
-    {% for Question in yourquestions %}
-    <li>
-        <a href="{% url 'viewquestion' Question.id %}">
-        ID#{{ Question.id }} <b>{{ Question.question }}</b>
-        </a>
-    </li>
-    {% endfor %}
-</ul>
-</div>
+    <div class="card-header">
+        <h3>Your questions:</h3>
+    </div>
+    <div class="card-body">
+        {% if yourquestions.count == 0 %}
+            Oh, you didn't ask any questions. Maybe you would like to do it <a href="{% url 'askaquestion' %}">now</a>?
+        {% else %}
+        <ul>
+            {% for Question in yourquestions %}
+            <li>
+                <a href="{% url 'viewquestion' Question.id %}">
+                    ID#{{ Question.id }} <b>{{ Question.question }}</b>
+                </a>
+            </li>
+            {% endfor %}
+        {% endif %}
+        </ul>
+    </div>
 </div>
 <hr class="large">
 <div class="card" >
-  <div class="card-header">
-<h3>Your answers:</h3>
-        </div>
-      <div class="card-body">
-<ul>
-    {% for Answer in youranswers %}
-    <li>
-        <a href="{% url 'viewanswer' Answer.id %}">
-        {{ Answer.question_id }} - ID#{{ Answer.id }} <b>{{ Answer.answer }}</b>
-        </a>
-    </li>
-    {% endfor %}
-</ul>
-</div>
+    <div class="card-header">
+        <h3>Your answers:</h3>
+    </div>
+    <div class="card-body">
+        {% if youranswers.count == 0 %}
+            Ah, I see that you didn't answer any questions yet. Maybe you would like to go through some questions on <a href="{% url 'home' %}">Home Page</a>?
+        {% else %}
+        <ul>
+            {% for Answer in youranswers %}
+            <li>
+                <a href="{% url 'viewanswer' Answer.id %}">
+                    {{ Answer.question_id }} - ID#{{ Answer.id }} <b>{{ Answer.answer }}</b>
+                </a>
+            </li>
+            {% endfor %}
+        {% endif %}
+        </ul>
+    </div>
 </div>
 </body>
 </html>

@@ -37,6 +37,7 @@ urlpatterns = [
     path('voteup/', views.voteup, name='voteup'),
     path('votedown/', views.votedown, name='votedown'),
     path('questiondetails/<int:question_pk>', views.questiondetails, name='questiondetails'),
+    path('about/', views.about, name='about'),
 
     path('', views.home, name='home'),
 ]
