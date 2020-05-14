@@ -27,6 +27,14 @@
 </div>
 
     <h5 class="card-title"><i><h5>Question:</h5></i><br> {{ question }}</h5>
+      {% if user == question.user and question.answered == False %}
+      <center>
+        <form method="POST" action="{% url 'questionanswered' question.id %}">
+            {% csrf_token %}
+            <button class="btn btn-info" type="submit">Mark Question as Answered!</button>
+        </form>
+      </center>
+      {% endif %}
       <hr class="large">
         {% for answer in question.answer_set.all %}
       {% if answer.appreciated_answer %}

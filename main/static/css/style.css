@@ -37,3 +37,15 @@ hr.style-two {
     margin: 7px 0px;
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.01));
 }
+
+.floatleft {
+  float: left;
+  clear: right;
+  margin-right: 15px;
+}
+
+.floatleftmarginleft {
+  float: left;
+  clear: right;
+  margin-left: 5px;
+}

@@ -43,7 +43,10 @@
       {% else %}
       <i>Answer:</i>
       {% endif %}
-       {{ answer|striptags|truncatechars:200 }} | Author: {{ answer.user }}<br>
+       {{ answer|striptags|truncatechars:200 }}
+      <div class="float-right">
+      Author: {{ answer.user }} | Created: {{ answer.created|date:'M j Y H:i' }}
+      </div>
       <hr class="style-two">
         {% endfor %}
       {% if question.answer_set.count > 3 %}<br>
