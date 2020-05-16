@@ -33,15 +33,3 @@ class BestAnswerForm(ModelForm):
     class Meta:
         model = Answer
         fields = ['question_id', 'answer']
-
-
-class UserCreateForm(UserCreationForm):
-
-    class Meta:
-        fields = ('username', 'password1', 'password2')
-        model = get_user_model()
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['username'].widget.attrs.update({'class': 'form-control'})
-        self.fields['password1'].widget.attrs.update({'class': 'form-control'})
