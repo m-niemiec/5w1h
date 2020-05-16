@@ -8,6 +8,7 @@
     <title>Title</title>
 </head>
 <body>
+
 <div class="card">
     <div class="card-header">
         <span class="badge badge-info">ID#{{ question.id }}</span>
@@ -26,6 +27,7 @@
             {% include 'main/partials/voting_section.html' %}
         </div>
 
+<!--        Marking question as "answered"-->
         <h5 class="card-title"><i><h5>Question:</h5></i><br> {{ question }}</h5>
         {% if user == question.user and question.answered == False %}
             <center>
@@ -49,6 +51,8 @@
                 </div><br>
             {% endif %}
         {{ answer }}<br>
+
+<!--        Marking answer as appreciated-->
         {% if user == question.user and answer.appreciated_answer == False %}
             <form method='POST' action="{% url 'appreciatedanswer' answer.id %}">
             {% csrf_token %}
@@ -58,6 +62,7 @@
         <hr class="style-two">
         {% endfor %}
 <br><br>
+<!--        Form for answering question-->
 <center>
 <form method="POST">
 {% csrf_token %}

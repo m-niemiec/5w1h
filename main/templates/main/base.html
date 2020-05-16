@@ -14,6 +14,7 @@
 </head>
 <body>
 
+<!--Main part of navigation bar-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="{% url 'home' %}">
     <img src="{% static 'main/favicon_2.png' %}" width="30" height="30" class="d-inline-block align-top" alt=""></a>
@@ -46,6 +47,8 @@
         </div>
     </div>
 </nav>
+
+<!--Section for rendering django messages-->
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
         {% include 'main/partials/messages_section.html' %}
@@ -53,6 +56,8 @@
 {% block content %}{% endblock %}
     </div>
 </div>
+
+<!--Javscript for Ajax implementation in voting up and down-->
 <script type="text/javascript">
     $(document).ready(function(event){
         $(document).on('click', '#voteup', function(event){
