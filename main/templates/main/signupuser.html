@@ -8,17 +8,36 @@
     <title>Sign Up</title>
 </head>
 <body>
-
-<h1>Sign Up</h1>
-
-<h2>{{ error }}</h2>
-
-<form method="POST">
-{% csrf_token %}
-{{ form.as_p }}
-<button type="submit">Sign Up!</button>
-</form>
-
+<div class="container">
+    <div class="row">
+        <br>
+        <br>
+    </div>
+    {% if error %}
+        <center><div class="alert alert-danger" role="alert">{{ error }}</div></center>
+    {% endif %}
+    <div class="row">
+        <div class="col-md-6 offset-3">
+            <h1>Sign Up:</h1><br>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Username:</label>
+                    <input type="text" class="form-control" name="username" aria-describedby="emailHelp" placeholder="Enter username. It will be visible for others." required>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Password:</label>
+                    <input type="password" class="form-control" name="password1" id="exampleInputPassword1" placeholder="Password. Please make it strong and unique." required>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Confirm Password:</label>
+                    <input type="password" class="form-control" name="password2" id="exampleInputPassword1" placeholder="Repeat password from above." required>
+                </div>
+                <button type="submit" class="btn btn-info">Sign Up</button>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>
 {% endblock %}

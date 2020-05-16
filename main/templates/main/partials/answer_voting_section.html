@@ -11,11 +11,11 @@ Vote Up: {{ total_answer_voteup }} Vote Down: {{ total_answer_votedown }}
     </form>
     {% else %}
     <form method='POST' action="{% url 'answer_voteup' %}">
-            {% csrf_token %}
-            <button type='submit' id="answer_voteup" name="answer_id" value="{{ answer.id }}">/\</button>
-            </form>
-            <form method='POST' action="{% url 'answer_votedown' %}">
-            {% csrf_token %}
-            <button type='submit' id="answer_votedown" name="answer_id" value="{{ answer.id }}">\/</button>
-            </form>
-        {% endif %}
+    {% csrf_token %}
+    <button type='submit' id="answer_voteup" name="answer_id" value="{{ answer.id }}">/\</button>
+    </form>
+    <form method='POST' action="{% url 'answer_votedown' %}">
+    {% csrf_token %}
+    <button type='submit' id="answer_votedown" name="answer_id" value="{{ answer.id }}">\/</button>
+    </form>
+{% endif %}
