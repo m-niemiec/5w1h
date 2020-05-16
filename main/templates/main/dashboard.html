@@ -8,6 +8,7 @@
     <title>Dashboard</title>
 </head>
 <body>
+
 <h1>Dashboard</h1>
 <p>Have a nice day {{ user }}!</p>
 <hr class="large">
@@ -22,8 +23,7 @@
         <ul>
             {% for Question in yourquestions %}
             <li>
-                <a href="{% url 'viewquestion' Question.id %}">
-                    ID#{{ Question.id }} <b>{{ Question.question }}</b>
+                <a href="{% url 'viewquestion' Question.id %}">ID#{{ Question.id }} <b>{{ Question.question }}</b>
                 </a>
             </li>
             {% endfor %}
@@ -38,7 +38,8 @@
     </div>
     <div class="card-body">
         {% if youranswers.count == 0 %}
-            Ah, I see that you didn't answer any questions yet. Maybe you would like to go through some questions on <a href="{% url 'home' %}">Home Page</a>?
+            Ah, I see that you didn't answer any questions yet.
+            Maybe you would like to go through some questions on <a href="{% url 'home' %}">Home Page</a>?
         {% else %}
         <ul>
             {% for Answer in youranswers %}
@@ -52,6 +53,7 @@
         </ul>
     </div>
 </div>
+
 </body>
 </html>
 {% endblock %}

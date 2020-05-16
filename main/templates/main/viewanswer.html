@@ -9,20 +9,19 @@
 <body>
 
 {{ error }}
-
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
     <div class="floatleft">
     <button type="submit" class="btn btn-success">Save new Answer</button>
-        </div>
+    </div>
 </form>
 
 <form method="POST" action="{% url 'deleteanswer' answer.id %}">
     {% csrf_token %}
     <div class="floatleft">
     <button type="submit" class="btn btn-danger">Delete Answer</button>
-        </div>
+    </div>
 </form>
 
 </body>

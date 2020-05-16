@@ -8,6 +8,7 @@
     <title>Title</title>
 </head>
 <body>
+
 <h1 class="display-5">5W1H - what, why, where, when, who and how?
 
 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#quick_start">
@@ -15,52 +16,52 @@
 </button>
 
 </h1>
-<p class="lead">With these 6 simple questions, you should be able to ask all the questions that you may have. Ask them or answer them!</p>
+<p class="lead">With these 6 simple questions, you should be able to ask all the questions that you may have.
+    Ask them or answer them!</p>
 <hr class="large">
-<p class="lead">We already have {{ questions_count }} questions and {{ answers_count }} answers ! Can you pump those numbers up with us?</p>
+<p class="lead">We already have {{ questions_count }} questions and {{ answers_count }} answers !
+    Can you pump those numbers up with us?</p>
 {% for question in allquestions %}
 <div class="card" >
-  <div class="card-header">
-      <a href="{% url 'questiondetails' question.id %}" class="badge badge-info">ID#{{ question.id }}</a>
-      Total answer{{ question.answer_set.count|pluralize }}: {{ question.answer_set.count }}
+    <div class="card-header">
+        <a href="{% url 'questiondetails' question.id %}" class="badge badge-info">ID#{{ question.id }}</a>
+        Total answer{{ question.answer_set.count|pluralize }}: {{ question.answer_set.count }}
     {% if question.answered %}
-      <span class="badge badge-success">Answered</span>
+        <span class="badge badge-success">Answered</span>
     {% else %}
-      <span class="badge badge-secondary">Still need good answers!</span>
-      {% endif %}
-      <div class="float-right">
-          Author: {{ question.user }} | Created: {{ question.created|date:'M j Y H:i' }}
-      </div>
-  </div>
-  <div class="card-body">
-
-      <i>Question:</i> {{ question|truncatechars:500 }}<br>
+        <span class="badge badge-secondary">Still need good answers!</span>
+    {% endif %}
+        <div class="float-right">
+            Author: {{ question.user }} | Created: {{ question.created|date:'M j Y H:i' }}
+        </div>
+    </div>
+    <div class="card-body">
+        <i>Question:</i> {{ question|truncatechars:500 }}<br>
         <hr class="large">
         {% for answer in question.answer_set.all|slice:":3" %}
-
-      {% if answer.appreciated_answer %}
-      <span class="badge badge-success">Valued</span><i> Answer:</i>
-      {% else %}
-      <i>Answer:</i>
-      {% endif %}
-       {{ answer|striptags|truncatechars:200 }}
-      <div class="float-right">
-      Author: {{ answer.user }} | Created: {{ answer.created|date:'M j Y H:i' }}
-      </div>
-      <hr class="style-two">
+            {% if answer.appreciated_answer %}
+                <span class="badge badge-success">Valued</span><i> Answer:</i>
+            {% else %}
+                <i>Answer:</i>
+            {% endif %}
+            {{ answer|striptags|truncatechars:200 }}
+            <div class="float-right">
+                Author: {{ answer.user }} | Created: {{ answer.created|date:'M j Y H:i' }}
+            </div>
+            <hr class="style-two">
         {% endfor %}
-      {% if question.answer_set.count > 3 %}<br>
-      <i>This questions have more answers, maybe you would like to <a href="{% url 'questiondetails' question.id %}">check them out?</a></i>
-      {% endif %}
-  </div>
+        {% if question.answer_set.count > 3 %}<br>
+            <i>This questions have more answers, maybe you would
+                like to <a href="{% url 'questiondetails' question.id %}">check them out?</a></i>
+        {% endif %}
+    </div>
     <div class="card-footer">
-      <small class="text-muted">
-          <a href="{% url 'questiondetails' question.id %}" class="btn btn-info btn-sm" role="button" aria-pressed="true">Answer</a>
-      </small>
+        <small class="text-muted">
+            <a href="{% url 'questiondetails' question.id %}" class="btn btn-info btn-sm" role="button" aria-pressed="true">Answer</a>
+        </small>
     </div>
-    </div>
+</div>
 <br>
-
     {% endfor %}
 <ul class="pagination justify-content-center">
     {% if allquestions.has_previous %}
@@ -89,29 +90,30 @@
 </ul>
 </center>
 
-<!-- Quick Start Modal -->
 <div class="modal fade" id="quick_start" tabindex="-1" role="dialog" aria-labelledby="quick_start" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Information for quick start with 5W1H:</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          Hi. I am coming to your aid if you need some more information on how to get started with 5W1H.<br><br>
-          To be able to ask, answer and vote on questions and answers you will need an account. You can just press "Sign Up" or "Login" on top menu.<br><br>
-          After registering and logging in you will gain acces to all of those features that we talked before. Also you will be able to view your questions and answers and you will also be able to edit them.<br><br>
-          When you click on question you will be able to vote if you liked this question or not.<br><br>
-          When you ask a question you will also be able to choose what answers you find useful.<br><br>
-          Question will get "Answered" badge only if author will check at least one useful answer.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Information for quick start with 5W1H:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Hi. I am coming to your aid if you need some more information on how to get started with 5W1H.<br><br>
+                To be able to ask, answer and vote on questions and answers you will need an account.
+                You can just press "Sign Up" or "Login" on top menu.<br><br>
+                After registering and logging in you will gain acces to all of those features that we talked before.
+                Also you will be able to view your questions and answers and you will also be able to edit them.<br><br>
+                When you click on question you will be able to vote if you liked this question or not.<br><br>
+                When you ask a question you will also be able to choose what answers you find useful.<br><br>
+                Question will get "Answered" badge only if author will check at least one useful answer.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 </body>
