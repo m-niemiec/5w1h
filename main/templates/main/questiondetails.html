@@ -19,7 +19,7 @@
             <span class="badge badge-secondary">Still need good answers!</span>
         {% endif %}
         <div class="float-right">
-            Author: {{ question.user }} | Created: {{ question.created|date:'M j Y H:i' }}
+            Author: {{ question.user }} | Created: {{ question.created|date:'M d Y H:i' }}
         </div>
     </div>
     <div class="card-body">
@@ -42,12 +42,12 @@
             {% if answer.appreciated_answer %}
                 <span class="badge badge-success">Valued</span><i> Answer:</i>
                     <div class="float-right">
-                        Author: {{ answer.user }} | Created: {{ answer.created|date:'M j Y H:i' }}
+                        Author: {{ answer.user }} | Created: {{ answer.created|date:'M d Y H:i' }}
                     </div><br>
             {% else %}
                 <i>Answer:</i>
                 <div class="float-right">
-                    Author: {{ answer.user }} | Created: {{ answer.created|date:'M j Y H:i' }}
+                    Author: {{ answer.user }} | Created: {{ answer.created|date:'M d Y H:i' }}
                 </div><br>
             {% endif %}
         {{ answer }}<br>

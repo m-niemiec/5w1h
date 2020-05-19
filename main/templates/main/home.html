@@ -32,7 +32,7 @@
         <span class="badge badge-secondary">Still need good answers!</span>
     {% endif %}
         <div class="float-right">
-            Author: {{ question.user }} | Created: {{ question.created|date:'M j Y H:i' }}
+            Author: {{ question.user }} | Created: {{ question.created|date:'M d Y H:i' }}
         </div>
     </div>
     <div class="card-body">
@@ -46,7 +46,7 @@
             {% endif %}
             {{ answer|striptags|truncatechars:200 }}
             <div class="float-right">
-                Author: {{ answer.user }} | Created: {{ answer.created|date:'M j Y H:i' }}
+                Author: {{ answer.user }} | Created: {{ answer.created|date:'M d Y H:i' }}
             </div>
             <hr class="style-two">
         {% endfor %}
@@ -103,7 +103,7 @@
                 Hi. I am coming to your aid if you need some more information on how to get started with 5W1H.<br><br>
                 To be able to ask, answer and vote on questions and answers you will need an account.
                 You can just press "Sign Up" or "Login" on top menu.<br><br>
-                After registering and logging in you will gain acces to all of those features that we talked before.
+                After registering and logging in you will gain access to all of those features that we talked before.
                 Also you will be able to view your questions and answers and you will also be able to edit them.<br><br>
                 When you click on question you will be able to vote if you liked this question or not.<br><br>
                 When you ask a question you will also be able to choose what answers you find useful.<br><br>

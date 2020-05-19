@@ -229,15 +229,17 @@ def deleteanswer(request, answer_pk):
 @login_required
 def voteup(request):
     question = get_object_or_404(Question, id=request.POST.get('question_id'))
-    total_voteup = question.total_voteup()
-    total_votedown = question.total_votedown()
     is_voteup = False
     if question.voteup.filter(id=request.user.id).exists():
         question.voteup.remove(request.user)
         is_voteup = False
+        total_voteup = question.total_voteup()
+        total_votedown = question.total_votedown()
     else:
         question.voteup.add(request.user)
         is_voteup = True
+        total_voteup = question.total_voteup()
+        total_votedown = question.total_votedown()
     context = {
         'question': question,
         'is_voteup': is_voteup,
@@ -252,15 +254,17 @@ def voteup(request):
 @login_required
 def votedown(request):
     question = get_object_or_404(Question, id=request.POST.get('question_id'))
-    total_voteup = question.total_voteup()
-    total_votedown = question.total_votedown()
     is_votedown = False
     if question.votedown.filter(id=request.user.id).exists():
         question.votedown.remove(request.user)
         is_votedown = False
+        total_voteup = question.total_voteup()
+        total_votedown = question.total_votedown()
     else:
         question.votedown.add(request.user)
         is_votedown = True
+        total_voteup = question.total_voteup()
+        total_votedown = question.total_votedown()
     context = {
         'question': question,
         'is_votedown': is_votedown,
