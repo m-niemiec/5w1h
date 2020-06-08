@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
@@ -10,20 +10,22 @@ from django.utils import timezone
 from django.http import JsonResponse
 from django.contrib import messages
 from django import forms
-from datetime import datetime, timedelta
 from django.template.loader import render_to_string
 from main.models import Answer
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def home(request):
+    # Getting all needed query to render questions.
     allquestionswithanswers = Question.objects.filter(datecompleted__isnull=False).order_by('-id')
     allquestionswithoutanswers = Question.objects.filter(datecompleted__isnull=True).order_by('-id')
     allquestions = Question.objects.all().order_by('-id')
 
+    # Counting for home page statistics.
     questions_count = Question.objects.count
     answers_count = Answer.objects.count
 
+    # Code for pagination
     paginator = Paginator(allquestions, 2)
     page = request.GET.get('page')
     try:
@@ -106,6 +108,7 @@ def logoutuser(request):
         return redirect("home")
 
 
+# Dashboard is mainpage for user, listing all his questions and answers. User gets redirected here after login.
 @login_required
 def dashboard(request):
     yourquestions = Question.objects.filter(user=request.user)
@@ -130,6 +133,7 @@ def askaquestion(request):
                           {'form': AskAQuestionForm(), 'error': 'Bad input, can you please rephrase?'})
 
 
+# Allows user to edit his question.
 @login_required
 def viewquestion(request, question_pk):
     question = get_object_or_404(Question, pk=question_pk, user=request.user)
@@ -148,6 +152,7 @@ def viewquestion(request, question_pk):
                                                               'error': 'Bad input, can you please rephrase?'})
 
 
+# Question details show when user click on question from main page.
 def questiondetails(request, question_pk):
     question = get_object_or_404(Question, pk=question_pk)
     appreciated_answer = Answer.objects.filter(question_id=question).values('appreciated_answer').exists()
@@ -190,6 +195,7 @@ def deletequestion(request, question_pk):
         return redirect("dashboard")
 
 
+# Marks question as "Answered".
 @login_required
 def questionanswered(request, question_pk):
     question = get_object_or_404(Question, pk=question_pk, user=request.user)
@@ -201,6 +207,7 @@ def questionanswered(request, question_pk):
         return redirect("dashboard")
 
 
+# Allows user to edit his answer.
 @login_required
 def viewanswer(request, answer_pk):
     answer = get_object_or_404(Answer, pk=answer_pk, user=request.user)
@@ -226,6 +233,7 @@ def deleteanswer(request, answer_pk):
         return redirect("dashboard")
 
 
+# Voting system, when you select UP or DOWN other button will disappear. Uses Ajax.
 @login_required
 def voteup(request):
     question = get_object_or_404(Question, id=request.POST.get('question_id'))
@@ -276,6 +284,7 @@ def votedown(request):
         return JsonResponse({'form': html})
 
 
+# System for marking which answer was actually valuable for user who asked the question.
 @login_required
 def appreciatedanswer(request, answer_pk):
     answer = get_object_or_404(Answer, pk=answer_pk)
@@ -286,5 +295,6 @@ def appreciatedanswer(request, answer_pk):
         return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 
 
+# About page that can be accessed from menu.
 def about(request):
     return render(request, 'main/about.html')

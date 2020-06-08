@@ -1,3 +1,4 @@
+<!--Partial HTML to insert with django messages-->
 {% if messages %}
 {% for message in messages %}
 <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}" role="alert">

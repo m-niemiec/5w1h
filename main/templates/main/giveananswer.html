@@ -12,6 +12,7 @@
 <h1>Give an answer:</h1>
 <h2>{{ error }}</h2>
 
+<!--Form for answering question-->
 <form method="POST">
 {% csrf_token %}
 {{ form.as_p }}

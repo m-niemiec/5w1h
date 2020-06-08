@@ -9,6 +9,7 @@
 </head>
 <body>
 
+<!--Title and desc of website, welcome text-->
 <h1 class="display-5">5W1H - what, why, where, when, who and how?
 
 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#quick_start">
@@ -21,6 +22,8 @@
 <hr class="large">
 <p class="lead">We already have {{ questions_count }} questions and {{ answers_count }} answers !
     Can you pump those numbers up with us?</p>
+
+<!--Main for loop with question content-->
 {% for question in allquestions %}
 <div class="card" >
     <div class="card-header">
@@ -38,6 +41,7 @@
     <div class="card-body">
         <i>Question:</i> {{ question|truncatechars:500 }}<br>
         <hr class="large">
+        <!--For loop with answers to each question-->
         {% for answer in question.answer_set.all|slice:":3" %}
             {% if answer.appreciated_answer %}
                 <span class="badge badge-success">Valued</span><i> Answer:</i>
@@ -63,6 +67,7 @@
 </div>
 <br>
     {% endfor %}
+<!--Pagination for browsing questions-->
 <ul class="pagination justify-content-center">
     {% if allquestions.has_previous %}
         <li class="page-item">
@@ -90,6 +95,7 @@
 </ul>
 </center>
 
+<!--Pop up with quick info about website-->
 <div class="modal fade" id="quick_start" tabindex="-1" role="dialog" aria-labelledby="quick_start" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
