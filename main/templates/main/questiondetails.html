@@ -65,7 +65,7 @@
 <br><br>
 <!--        Form for answering question-->
 <center>
-{% if user %}
+{% if user.is_authenticated %}
     <form method="POST">
     {% csrf_token %}
         <h3>Your answer:</h3><br>
