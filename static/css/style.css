@@ -1,3 +1,8 @@
+@media only screen and (max-width: 815px) {
+     hr.style-two {
+         margin: 45px 0px 7px !Important;
+    }
+}
 .pagination > li > a
 {
     background-color: white;
@@ -34,7 +39,7 @@ hr.large { margin: 24px 0px; }
 hr.style-two {
     border: 0;
     height: 1px;
-    margin: 7px 0px;
+    margin: 7px 0px 7px;
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.01));
 }
 
