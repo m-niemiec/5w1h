@@ -65,18 +65,20 @@
 <br><br>
 <!--        Form for answering question-->
 <center>
-<form method="POST">
-{% csrf_token %}
-    <h3>Your answer:</h3><br>
-    <div class="fieldWrapper">
-        {{ form.question_id.errors }}
-        {{ form.question_id }}
+{% if user %}
+    <form method="POST">
+    {% csrf_token %}
+        <h3>Your answer:</h3><br>
+        <div class="fieldWrapper">
+            {{ form.question_id.errors }}
+            {{ form.question_id }}
 
-        {{ form.answer.errors }}
-        {{ form.answer }}
-    </div><br>
-    <button type="submit" class="btn btn-info btn-lg">Post Answer</button>
-</form>
+            {{ form.answer.errors }}
+            {{ form.answer }}
+        </div><br>
+        <button type="submit" class="btn btn-info btn-lg">Post Answer</button>
+    </form>
+{% endif %}
 </center>
 </div>
 
