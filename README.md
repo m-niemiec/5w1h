@@ -6,7 +6,7 @@ I created this website in order to train my Django skills. In development I used
 
 On this website you can create an account, login, ask and answer questions, edit them, mark questions as answered and answers as "valuable" (only in your own questions) and of course vote up and down on them.
 
-You can check out this site live at - https://fivewoneh.herokuapp.com/
+(unfortunately, this site is no longer available online)
 
 Cheers!
 
